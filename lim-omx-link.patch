@@ -1,0 +1,32 @@
+--- lim-omx-1.0/limutil/src/Makefile.am.orig	2011-08-08 04:34:28.000000000 +0200
++++ lim-omx-1.0/limutil/src/Makefile.am	2011-09-27 21:27:56.727929862 +0200
+@@ -13,5 +13,7 @@
+ liblimutil_la_CFLAGS = -Wall -Werror \
+ 	-I$(top_srcdir)/include
+ 
++liblimutil_la_LIBADD = -lpthread
++
+ liblimutil_la_LDFLAGS = -version-info @LIMUTIL_SO_VERSION@ \
+ 	 --no-allow-shlib-undefined
+--- lim-omx-1.0/limoi-base/src/Makefile.am.orig	2011-09-26 18:31:58.668016683 +0200
++++ lim-omx-1.0/limoi-base/src/Makefile.am	2011-09-26 18:56:16.621398834 +0200
+@@ -35,7 +35,7 @@
+ 	-Ivideo \
+ 	-Iother
+ 
+-liblimoi_base_la_LIBADD = $(LIMUTIL_LIBS)
++liblimoi_base_la_LIBADD = $(LIMUTIL_LIBS) -lpthread
+ 
+ liblimoi_base_la_LDFLAGS = -version-info @LIMOI_BASE_SO_VERSION@ \
+ 	 --no-allow-shlib-undefined
+--- lim-omx-1.0/limoi-components/ffmpeg/libomx-ffmpeg/configure.ac.orig	2011-08-08 04:34:28.000000000 +0200
++++ lim-omx-1.0/limoi-components/ffmpeg/libomx-ffmpeg/configure.ac	2011-09-26 21:08:22.228330879 +0200
+@@ -27,7 +27,7 @@
+ PKG_PROG_PKG_CONFIG()
+ PKG_CHECK_MODULES([LIMOI], [liblimoi-core])
+ PKG_CHECK_MODULES([LIMOIBASE], [liblimoi-base])
+-PKG_CHECK_MODULES([AVFORMAT], [libavformat])
++PKG_CHECK_MODULES([AVFORMAT], [libavformat libavcodec libavutil])
+ 
+ # Checks for header files.
+ 
