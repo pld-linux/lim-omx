@@ -199,6 +199,46 @@ Static LIM OpenMAX ffmpeg wrapper library.
 %description -n limomx-ffmpeg-static -l pl.UTF-8
 Statyczna biblioteka LIM OpenMAX obudowująca ffmpeg.
 
+%package -n limoa
+Summary:	Less Is More OpenMAX Application Layer library
+Summary(pl.UTF-8):	Biblioteka implementacji Less Is More standardu OpenMAX AL
+Group:		Libraries
+Requires:	limoi-core = %{version}-%{release}
+
+%description -n limoa
+LIM (Less Is More) implementation of OpenMAX Application Layer
+library.
+
+%description -n limoa -l pl.UTF-8
+Biblioteka implementacji LIM (Less Is More) warstwy aplikacji
+standardu OpenMAX (OpenMAX AL).
+
+%package -n limoa-devel
+Summary:	Header files for LIM OpenMAX AL library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki implementacji LIM OpenMAX AL
+Group:		Development/Libraries
+Requires:	limoa = %{version}-%{release}
+Requires:	limoi-core-devel = %{version}-%{release}
+
+%description -n limoa-devel
+Header files for LIM OpenMAX Application Layer library.
+
+%description -n limoa-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki implementacji LIM OpenMAX AL.
+
+%package -n limoa-static
+Summary:	Static LIM OpenMAX AL library
+Summary(pl.UTF-8):	Statyczna biblioteka implementacji LIM OpenMAX AL
+Group:		Development/Libraries
+Requires:	limoa = %{version}-%{release}
+Requires:	limoi-core-devel = %{version}-%{release}
+
+%description -n limoa-static
+Static LIM OpenMAX Application Layer library.
+
+%description -n limoa-static -l pl.UTF-8
+Statyczna bibliotek implementacji LIM OpenMAX AL.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -253,7 +293,7 @@ cd ../limoi-base
 %{__autoheader}
 %{__automake}
 %configure \
-	PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoa-core" \
+	PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoi-core" \
 	LIMUTIL_CFLAGS="-I$BASEDIR/limutil/include" \
 	LIMUTIL_LIBS="-L$BASEDIR/limutil/src/.libs -llimutil" \
 	LIMOI_CFLAGS="-I$BASEDIR/limoi-core/include" \
@@ -271,7 +311,7 @@ for d in limoi-components/{alsa_sink,clock,ffmpeg/libomx-ffmpeg,mad_dec,ogg_dec,
 	%{__autoheader}
 	%{__automake}
 	%configure \
-		PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoa-core:$BASEDIR/limoa-base" \
+		PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoi-core:$BASEDIR/limoi-base" \
 		LIMOI_CFLAGS="-I$BASEDIR/limoi-core/include -I$BASEDIR/limutil/include" \
 		LIMOI_LIBS="-L$BASEDIR/limoi-core/src/.libs -llimoi-core" \
 		LIMOIBASE_CFLAGS="-I$BASEDIR/limoi-base/include" \
@@ -290,7 +330,7 @@ for d in limoi-components/ffmpeg/{decode,demux,encode,mux} ; do
 	%{__autoheader}
 	%{__automake}
 	%configure \
-		PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoa-core:$BASEDIR/limoa-base:$BASEDIR/limoi-components/ffmpeg/libomx-ffmpeg" \
+		PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoi-core:$BASEDIR/limoi-base:$BASEDIR/limoi-components/ffmpeg/libomx-ffmpeg" \
 		LIMOI_CFLAGS="-I$BASEDIR/limoi-core/include -I$BASEDIR/limutil/include" \
 		LIMOI_LIBS="-L$BASEDIR/limoi-core/src/.libs -llimoi-core" \
 		LIMOIBASE_CFLAGS="-I$BASEDIR/limoi-base/include" \
@@ -310,7 +350,7 @@ cd $BASEDIR/limoa
 %{__autoheader}
 %{__automake}
 %configure \
-	PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoa-core" \
+	PKG_CONFIG_PATH="$BASEDIR/limutil:$BASEDIR/limoi-core" \
 	LIMUTIL_CFLAGS="-I$BASEDIR/limutil/include" \
 	LIMUTIL_LIBS="-L$BASEDIR/limutil/src/.libs -llimutil" \
 	OMXIL_CFLAGS="-I$BASEDIR/limoi-core/include" \
@@ -347,6 +387,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %post	-n limomx-ffmpeg -p /sbin/ldconfig
 %postun	-n limomx-ffmpeg -p /sbin/ldconfig
+
+%post	-n limoa -p /sbin/ldconfig
+%postun	-n limoa -p /sbin/ldconfig
 
 %files -n limutil
 %defattr(644,root,root,755)
@@ -421,3 +464,20 @@ rm -rf $RPM_BUILD_ROOT
 %files -n limomx-ffmpeg-static
 %defattr(644,root,root,755)
 %{_libdir}/libomx-ffmpeg.a
+
+%files -n limoa
+%defattr(644,root,root,755)
+%doc limoa/{ChangeLog,NEWS,README}
+%attr(755,root,root) %{_libdir}/liblimoa.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/liblimoa.so.0
+
+%files -n limoa-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/liblimoa.so
+%{_includedir}/OpenMAXAL.h
+%{_includedir}/OpenMAXAL_Platform.h
+%{_pkgconfigdir}/liblimoa.pc
+
+%files -n limoa-static
+%defattr(644,root,root,755)
+%{_libdir}/liblimoa.a

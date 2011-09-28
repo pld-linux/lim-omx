@@ -15,7 +15,7 @@
  	-Iother
  
 -liblimoi_base_la_LIBADD = $(LIMUTIL_LIBS)
-+liblimoi_base_la_LIBADD = $(LIMUTIL_LIBS) -lpthread
++liblimoi_base_la_LIBADD = $(LIMOI_LIBS) $(LIMUTIL_LIBS) -lpthread
  
  liblimoi_base_la_LDFLAGS = -version-info @LIMOI_BASE_SO_VERSION@ \
  	 --no-allow-shlib-undefined
