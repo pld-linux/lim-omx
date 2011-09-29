@@ -6,7 +6,7 @@ Summary:	Less Is More OpenMAX software stack
 Summary(pl.UTF-8):	Implementacja Less Is More stosu OpenMAX
 Name:		lim-omx
 Version:	1.0
-Release:	0.1
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	http://downloads.sourceforge.net/limoa/%{name}-%{version}.tar.gz
@@ -168,10 +168,11 @@ Requires:	limoi-base = %{version}-%{release}
 Requires:	ffmpeg-libs >= 0.8.4-2
 
 %description -n limomx-ffmpeg
-LIM OpenMAX ffmpeg wrapper library.
+LIM OpenMAX ffmpeg wrapper library and LIMOI components.
 
 %description -n limomx-ffmpeg -l pl.UTF-8
-Biblioteka LIM OpenMAX obudowująca ffmpeg.
+Biblioteka LIM OpenMAX obudowująca ffmpeg oraz komponenty ffmpeg dla
+LIMOI.
 
 %package -n limomx-ffmpeg-devel
 Summary:	Header file for LIM OpenMAX ffmpeg wrapper library
@@ -198,6 +199,54 @@ Static LIM OpenMAX ffmpeg wrapper library.
 
 %description -n limomx-ffmpeg-static -l pl.UTF-8
 Statyczna biblioteka LIM OpenMAX obudowująca ffmpeg.
+
+%package -n limoi-component-alsa
+Summary:	ALSA audio sink component for LIM OpenMAX IL
+Summary(pl.UTF-8):	Komponent wyjścia dźwięku ALSA dla implementacji LIM OpenMAX IL
+Group:		Libraries
+Requires:	limoi-base = %{version}-%{release}
+
+%description -n limoi-component-alsa
+ALSA audio sink component for LIM OpenMAX IL.
+
+%description -n limoi-component-alsa -l pl.UTF-8
+Komponent wyjścia dźwięku ALSA dla implementacji LIM OpenMAX IL.
+
+%package -n limoi-component-mad
+Summary:	Mad MP3 decoder component for LIM OpenMAX IL
+Summary(pl.UTF-8):	Komponent dekodera MP3 Mad dla implementacji LIM OpenMAX IL
+Group:		Libraries
+Requires:	limoi-base = %{version}-%{release}
+
+%description -n limoi-component-mad
+Mad MP3 decoder component for LIM OpenMAX IL.
+
+%description -n limoi-component-mad -l pl.UTF-8
+Komponent dekodera MP3 Mad dla implementacji LIM OpenMAX IL.
+
+%package -n limoi-component-ogg
+Summary:	Ogg Vorbis decoder component for LIM OpenMAX IL
+Summary(pl.UTF-8):	Komponent dekodera Ogg Vorbis dla implementacji LIM OpenMAX IL
+Group:		Libraries
+Requires:	limoi-base = %{version}-%{release}
+
+%description -n limoi-component-ogg
+Ogg Vorbis decoder component for LIM OpenMAX IL.
+
+%description -n limoi-component-ogg -l pl.UTF-8
+Komponent dekodera Ogg Vorbis dla implementacji LIM OpenMAX IL.
+
+%package -n limoi-component-sdl
+Summary:	SDL video sink component for LIM OpenMAX IL
+Summary(pl.UTF-8):	Komponent wyjścia obrazu SDL dla implementacji LIM OpenMAX IL
+Group:		Libraries
+Requires:	limoi-base = %{version}-%{release}
+
+%description -n limoi-component-sdl
+SDL video sink component for LIM OpenMAX IL.
+
+%description -n limoi-component-sdl -l pl.UTF-8
+Komponent wyjścia obrazu SDL dla implementacji LIM OpenMAX IL.
 
 %package -n limoa
 Summary:	Less Is More OpenMAX Application Layer library
@@ -412,6 +461,12 @@ rm -rf $RPM_BUILD_ROOT
 %doc limoi-core/README
 %attr(755,root,root) %{_libdir}/liblimoi-core.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/liblimoi-core.so.0
+%dir %{_libdir}/limoi
+%dir %{_libdir}/limoi/component
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-clock.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-video-scheduler.so
+%dir %{_libdir}/limoi/resource-manager
+%attr(755,root,root) %{_libdir}/limoi/resource-manager/liblim-demo-resource-manager.so
 
 %files -n limoi-core-devel
 %defattr(644,root,root,755)
@@ -454,6 +509,13 @@ rm -rf $RPM_BUILD_ROOT
 %doc limoi-components/ffmpeg/libomx-ffmpeg/README
 %attr(755,root,root) %{_libdir}/libomx-ffmpeg.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libomx-ffmpeg.so.0
+# the library requires limoi-base/core anyway, so we can package components here
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-decode-audio.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-decode-video.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-demux.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-encode-audio.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-encode-video.so
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ffmpeg-mux.so
 
 %files -n limomx-ffmpeg-devel
 %defattr(644,root,root,755)
@@ -464,6 +526,24 @@ rm -rf $RPM_BUILD_ROOT
 %files -n limomx-ffmpeg-static
 %defattr(644,root,root,755)
 %{_libdir}/libomx-ffmpeg.a
+
+%files -n limoi-component-alsa
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-alsa-sink.so
+
+%files -n limoi-component-mad
+%defattr(644,root,root,755)
+%doc limoi-components/mad_dec/README
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-mad-dec.so
+
+%files -n limoi-component-ogg
+%defattr(644,root,root,755)
+%doc limoi-components/ogg_dec/README
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-ogg-dec.so
+
+%files -n limoi-component-sdl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/limoi/component/liblimoi-sdl-video-sink.so
 
 %files -n limoa
 %defattr(644,root,root,755)
