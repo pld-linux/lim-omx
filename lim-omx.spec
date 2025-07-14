@@ -290,7 +290,7 @@ Statyczna bibliotek implementacji LIM OpenMAX AL.
 
 %prep
 %setup -q
-%patch0 -p1
+%patch -P0 -p1
 
 %{__sed} -i -e 's/ -Werror//' \
 	limoi-core/src/Makefile.am \
